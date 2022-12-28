@@ -1,12 +1,16 @@
 import React, {useState} from 'react';
-import { Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Keyboard, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-web';
 import Task from './components/Task';
 
 export default function App() {
   const [task, setTask] = useState();
+  const [taskItems, setTaskItems] = useState([]);
+  
   const handleAddTask = () => {
-    console.log(task);
+    Keyboard.dismiss();
+    setTaskItems([...taskItems, task]);
+    setTask(null);
   }
 
   return (
@@ -16,6 +20,15 @@ export default function App() {
         <Text style={styles.sectionTitle}> Tarefas de hoje</Text>
           <View style = {styles.items}>
             {/*Aqui vão as tarefas */}
+            {
+              taskItems.map((item, index) => {
+                return(
+                  <TouchableOpacity key={index} >
+                    <Task text = {item} />
+                  </TouchableOpacity>
+                ) 
+              })
+            }
             <Task text = {'Tarefa 1'}/>
             <Task text = {'Tarefa 2'}/>
             <Task text = {'Tarefa 3'}/>
